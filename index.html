@@ -1,550 +1,566 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MFCoin jswallet</title>
-	<meta name="description" content="MFCoin jswallet is an instant cross-platform MFCoin wallet, controlled by you.">
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet">
-	<link href="css/css.css" rel="stylesheet" type="text/css">
-	
-	<link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16">  
-	<link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32">  
-	<link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96">  
-   
-	 <style>
-        .container {
-            position: relative;
-        }
-        * {
-            font-family: "OpenSansRegular" , Helvetica, sans-serif;
-        }
-    </style>
-</head>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="description" content="MFCoin web wallet is an instant cross-platform MFCoin wallet, controlled by you." />
+		<meta name="keywords" content="MFCoin,wallet,cryptocurrency" />
+		
+		<!-- мета-теги для превью в соцсетях -->
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="MFCoin Web Wallet" />
+		<meta property="og:title" content="MFCoin Web Wallet" />
+		<meta property="og:description" content="MFCoin web wallet is an instant cross-platform MFCoin wallet, controlled by you" />
+		<meta property="og:url" content="https://wallet.mfcoin.net" />
+		<meta property="og:locale" content="en_EN" />
+		<meta property="og:image" content="img/preview.jpg" />
+		<meta property="og:image:width" content="968" />
+		<meta property="og:image:height" content="504" />
+		
+		<title>MFCoin jswallet</title>
+		
+		<!-- Bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/main.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" type="text/css" />
+		
+		<link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16" />  
+		<link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
+		<link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96" />
+	   
+		 <style>
+			.container {
+				position: relative;
+			}
+			* {
+				font-family: "OpenSansRegular" , Helvetica, sans-serif;
+			}
+		</style>
+	</head>
 
-<body style="zoom: 1;">
-    <nav class="banner navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!--<a class="brand" href="/">
-                <img src="img/logo.png" alt="" style="margin-top: -4px; width: 129px;">-->
-            <a class="KKBrand" href="https://wallet.mfcoin.net">
-                MFCoin Wallet
-            </a>
-            <!--<a class="KKBrand" href="http://kryptokit.com" target="_blank">
-            	by Kryptokit
-            </a>-->
-            <div id="price"></div>
-            <div id="settings"><span class="glyphicon glyphicon-cog"></span></div>
-            <div id="info"><span class="glyphicon glyphicon-info-sign"></span></div>
-        </div>
-    </nav>
+	<body style="zoom: 1;">
+		<nav class="banner navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<!--<a class="brand" href="/">
+					<img src="img/logo.png" alt="" style="margin-top: -4px; width: 129px;">-->
+				<a class="KKBrand" href="https://wallet.mfcoin.net">
+					MFCoin Wallet
+				</a>
+				<!--<a class="KKBrand" href="http://kryptokit.com" target="_blank">
+					by Kryptokit
+				</a>-->
+				<div id="price"></div>
+				<div id="settings"><span class="glyphicon glyphicon-cog"></span></div>
+				<div id="info"><span class="glyphicon glyphicon-info-sign"></span></div>
+			</div>
+		</nav>
 
-    <div id="generate" style="display: block;">
-        <section class="dark">
-            <div class="container">
-				<!-- <button class="" id="passBtn"> <span class="hl">Create wallet with password</span> <span class="glyphicon"></span></button> -->
-
-
-				<div id="leadTxt">Move your mouse randomly inside the box until your Myriadcoin wallet appears</div>
+		<div id="generate" style="display: block;">
+			<section class="dark">
+				<div class="container">
+					<!-- <button class="" id="passBtn"> <span class="hl">Create wallet with password</span> <span class="glyphicon"></span></button> -->
 
 
-				<div id="passBox">
-					
-					<div id="passBoxTxt">
-						<div class="KKCheck">
-							<div class="KKCheckInner"><span class="glyphicon glyphicon-ok" id="checkIcon"></span></div>	
+					<div id="leadTxt">Move your mouse randomly inside the box until your Myriadcoin wallet appears</div>
+
+
+					<div id="passBox">
+						
+						<div id="passBoxTxt">
+							<div class="KKCheck">
+								<div class="KKCheckInner"><span class="glyphicon glyphicon-ok" id="checkIcon"></span></div>	
+							</div> 
+							Create wallet with password
 						</div> 
-						Create wallet with password
-					</div> 
-				</div>
-
-                <div id="tapBox" class="tapBox">
-                	<!--                     <img src="img/ripple.png" alt="" id="tapGif" width="150" class="tapBox">
- -->
-
- 					<div id="code"></div>
-					<div class="ripples" style="display: none;">  
-					  <div class="ripple ripple-1"></div>
-					  <div class="ripple ripple-2"></div>
-					  <div class="ripple ripple-3"></div>
 					</div>
 
-                    <div id="progressLockBox" style="display: inline-block;">
-                        <div id="progressFill"></div>
-                        <img src="img/progress_lock.png" alt="" id="progressLockImg" class="tapBox" width="236">
-                    </div>
+					<div id="tapBox" class="tapBox">
+						<!--                     <img src="img/ripple.png" alt="" id="tapGif" width="150" class="tapBox">
+	 -->
 
-                </div>
+						<div id="code"></div>
+						<div class="ripples" style="display: none;">  
+						  <div class="ripple ripple-1"></div>
+						  <div class="ripple ripple-2"></div>
+						  <div class="ripple ripple-3"></div>
+						</div>
 
+						<div id="progressLockBox" style="display: inline-block;">
+							<div id="progressFill"></div>
+							<img src="img/progress_lock.png" alt="" id="progressLockImg" class="tapBox" width="236">
+						</div>
 
-
-                <div id="createPassword" class="bg-warning">
-
-                    <div class="input-group">
-                        <input type="password" class="form-control" id="createPasswordTxt">
-                        <span class="input-group-btn">
-							<button type="button" class="btn btn-success" id="createWallet" disabled="disabled">Create Wallet</button>
-			      		</span>
-                    </div>
-
-                </div>
-
-                <div id="openPassword" class="bg-warning">
-                    <!-- <label for="exampleInputEmail1">Please enter a password to open this wallet</label> -->
+					</div>
 
 
-					<div class="input-group">
-                        <input type="password" class="form-control" id="openPasswordTxt">
-                        <span class="input-group-btn">
-							<button type="button" class="btn btn-success" id="openWallet" disabled="disabled">Open Wallet</button>
-			      		</span>
-                    </div>
+
+					<div id="createPassword" class="bg-warning">
+
+						<div class="input-group">
+							<input type="password" class="form-control" id="createPasswordTxt">
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-success" id="createWallet" disabled="disabled">Create Wallet</button>
+							</span>
+						</div>
+
+					</div>
+
+					<div id="openPassword" class="bg-warning">
+						<!-- <label for="exampleInputEmail1">Please enter a password to open this wallet</label> -->
 
 
-                </div>
-
-                <div class="alert alert-danger" id="loginError"></div>
-
-            </div>
-            <!-- <p><a href="address.php">Continue</a></p> -->
-        </section>
-    </div>
-
-    <div id="wallet" class="container">
-    	<div id="saveURL"><div>Make sure you bookmark this page to access your wallet in the future</div></div>
-
-    	<div id="addressBox">
-    	    <div id="addressTxt">Your MFCoin address</div>
-    	    <span id="address"></span>
-
-    	</div>
-
-        <div id="walletInfo">
-            <div class="container">
-                <div class="">
-                    <div id="leftInfo">
-                        <div class="balance">
-                            <!--฿<span id="btcBalance"></span>-->
-                            <span class="coin">MFC </span><span id="btcBalance"></span>
-                        </div>
-                        <div class="currency">
-                            <span id="currencyValue"></span> <span id="fiatValue"></span>
-                        </div>
-                    </div>
-                    <div class="qr-link">
-                        <img src="img/qr.jpg" class="qrimage smallQR">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
+						<div class="input-group">
+							<input type="password" class="form-control" id="openPasswordTxt">
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-success" id="openWallet" disabled="disabled">Open Wallet</button>
+							</span>
+						</div>
 
 
-            </div>
-        </div>
+					</div>
 
-        <div id="tabButtons">
-            <a class="tabButton" id="receiveBoxBtn">
-                <!--<img src="img/receive.png" alt="" class="btnIcon">--><span class="glyphicon glyphicon-save"> Receive</span></a>
-            <a class="tabButton" id="sendBoxBtn">
-                <!--<img src="img/send.png" alt="" class="btnIcon" id="sendIcon">--><span class="glyphicon glyphicon-open"> Send</span></a>
-            <div class="clearfix"></div>
-        </div>
+					<div class="alert alert-danger" id="loginError"></div>
 
-        <div id="actions">
-            <div id="receiveBox">
-                <div class="actionText">Generate a payment request</div>
-
-				<div class="form-group">
-                   
-
-                    <div class="input-group">
-                        <!-- <span class="input-group-addon"><i class="fa fa-bitcoin"></i></span>-->
-                        <!--<span class="input-group-addon" id="changeType2"><span class="glyphicon glyphicon-sort"></span> <span class="addonBox2">฿</span> </span>-->
-                        <span class="input-group-addon" id="changeType2"><span class="glyphicon glyphicon-sort"></span> <span class="addonBox2">MFC </span> </span>
-
-                        <input class="form-control" placeholder="Amount" id="txtReceiveAmount" type="text" autocapitalize="off" autocorrect="off">
-                        <span class="input-group-btn">
-                        	<span id="fiatPrice2"></span>
-                			<a class="btn btn-success" id="generateBtn" disabled="disabled">Generate</a>				
-                        </span>
-
-                    </div>
-
-                 </div>
-
-             
-            </div>
-            <div id="sendBox">
-                <div class="actionText">Send</div>
-				<div class="alert alert-warning" id="errorBox">
-					<!-- <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> -->
-					<div id="errorTxt"></div>
 				</div>
+				<!-- <p><a href="address.php">Continue</a></p> -->
+			</section>
+		</div>
 
-                <div class="form-group">
-                    <!-- <div id="reader" style="width:100px;height:100px">
-					 </div> -->
-                    <div class="input-group" style="width:100%">
-						
-                        <input type="text" class="form-control" placeholder="Receiving address" id="txtAddress" autocapitalize="off" autocorrect="off">
-                        <span class="input-group-addon" style="display: none;"><a href="" id="qrlink"><span class="glyphicon glyphicon-qrcode" id="qrscan"></span></a></span>
-                        <div id="oneNameInfo">
-                        	<div id="oneNameName"></div>
-                        	<div id="oneNameImg"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <!-- <span class="input-group-addon"><i class="fa fa-bitcoin"></i></span>-->
-                        <!--<span class="input-group-addon" id="changeType"><span class="glyphicon glyphicon-sort"></span> <span class="addonBox">฿</span> </span>-->
-                        <span class="input-group-addon" id="changeType"><span class="glyphicon glyphicon-sort"></span> <span class="addonBox">MFC </span> </span>
+		<div id="wallet" class="container">
+			<div id="saveURL"><div>Make sure you bookmark this page to access your wallet in the future</div></div>
 
-                        <input class="form-control" placeholder="Amount" id="txtAmount" type="text" autocapitalize="off" autocorrect="off">
-                        <span class="input-group-btn">
-                        	<span id="fiatPrice"></span>
-                			<a class="btn btn-success" id="sendBtn" disabled="disabled">Send</a>				
-                        </span>
+			<div id="addressBox">
+				<div id="addressTxt">Your MFCoin address</div>
+				<span id="address"></span>
 
-                    </div>
+			</div>
 
-                </div>
+			<div id="walletInfo">
+				<div class="container">
+					<div class="">
+						<div id="leftInfo">
+							<div class="balance">
+								<!--฿<span id="btcBalance"></span>-->
+								<span class="coin">MFC </span><span id="btcBalance"></span>
+							</div>
+							<div class="currency">
+								<span id="currencyValue"></span> <span id="fiatValue"></span>
+							</div>
+						</div>
+						<div class="qr-link">
+							<img src="img/qr.jpg" class="qrimage smallQR">
+						</div>
+						<div class="clearfix"></div>
+					</div>
 
-				<div id="qrInstall">
-					<div class="qrInstallTitle">Install QR Scanner (Optional)</div>
 
-					<div id="qrInstallX"><span class="glyphicon glyphicon-remove"></span></div>
-
-					<div class="clearfix"></div>
-
-					<div id="qrInstallInfo">Please <a target="_blank" href="https://itunes.apple.com/us/app/barcodes-scanner/id417257150?mt=8">install the QR Scanner</a> from the <span id="storeName">App Store</span></div>
-
-					<div id="qrInstallIcon"><a target="_blank" href="https://itunes.apple.com/us/app/barcodes-scanner/id417257150?mt=8"><img src="img/apple.png" alt=""></a></div>
-
-					<div class="clearfix"></div>
 				</div>
+			</div>
 
-            </div>
-        </div>
+			<div id="tabButtons">
+				<a class="tabButton" id="receiveBoxBtn">
+					<!--<img src="img/receive.png" alt="" class="btnIcon">--><span class="glyphicon glyphicon-save"> Receive</span></a>
+				<a class="tabButton" id="sendBoxBtn">
+					<!--<img src="img/send.png" alt="" class="btnIcon" id="sendIcon">--><span class="glyphicon glyphicon-open"> Send</span></a>
+				<div class="clearfix"></div>
+			</div>
 
-    </div>
-    <div class="container" id="txList">
-        <div id="txTitle">Transaction History</div>
+			<div id="actions">
+				<div id="receiveBox">
+					<div class="actionText">Generate a payment request</div>
 
-        <div class="break"></div>
+					<div class="form-group">
+					   
 
-        <div id="noTx">No transactions</div>
-        <div id="noTx"><span id="explorerlink"></span></div>
-        <div class="table-responsive" id="txBox">
-            <table class="table table-hover" id="txTable">
-                <thead>
-                    <tr id="tableHeader">
-                        <th style="border-radius:7px 0 0 7px;">Date</th>
-                        <th class="hidden-sm hidden-xs">Tx ID</th>
-                        <th class="hidden-sm hidden-xs">Confirmations</th>
+						<div class="input-group">
+							<!-- <span class="input-group-addon"><i class="fa fa-bitcoin"></i></span>-->
+							<!--<span class="input-group-addon" id="changeType2"><span class="glyphicon glyphicon-sort"></span> <span class="addonBox2">฿</span> </span>-->
+							<span class="input-group-addon" id="changeType2"><span class="glyphicon glyphicon-sort"></span> <span class="addonBox2">MFC </span> </span>
 
-                        <th style="border-radius:0 7px 7px 0; padding-right:40px; text-align:right;">Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
+							<input class="form-control" placeholder="Amount" id="txtReceiveAmount" type="text" autocapitalize="off" autocorrect="off">
+							<span class="input-group-btn">
+								<span id="fiatPrice2"></span>
+								<a class="btn btn-success" id="generateBtn" disabled="disabled">Generate</a>				
+							</span>
 
-                </tbody>
-            </table>
-        </div><center><br><b><font color="red">Note: Balance may be inaccurate until all transactions have at least one confirmation.</font></b>
-    </div>
-    
+						</div>
 
-			<div class="modal fade" id="infoModal">
-			    <div class="modal-dialog">
-			        <div class="modal-content">
+					 </div>
 
-			            <div class="modal-body">
-			                <div class="modalBox orangeLinks">
-			                	<div class="modalTitle">
-			                		<div class="closeModal">
-			                			<span class="glyphicon glyphicon-remove"></span>
-			                		</div>
-			                		Help
-			                	</div>
-                                <!--<div id="infoLogo"><img src="img/logo.png" alt=""></div>-->
+				 
+				</div>
+				<div id="sendBox">
+					<div class="actionText">Send</div>
+					<div class="alert alert-warning" id="errorBox">
+						<!-- <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> -->
+						<div id="errorTxt"></div>
+					</div>
 
-			                	<div class="infoText">jswallet is an instant cross-platform MFCoin wallet. By not requiring annoying logins and passwords, jswallet makes MFCoin simple to setup and easy to use.</div>
+					<div class="form-group">
+						<!-- <div id="reader" style="width:100px;height:100px">
+						 </div> -->
+						<div class="input-group" style="width:100%">
+							
+							<input type="text" class="form-control" placeholder="Receiving address" id="txtAddress" autocapitalize="off" autocorrect="off">
+							<span class="input-group-addon" style="display: none;"><a href="" id="qrlink"><span class="glyphicon glyphicon-qrcode" id="qrscan"></span></a></span>
+							<div id="oneNameInfo">
+								<div id="oneNameName"></div>
+								<div id="oneNameImg"></div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<!-- <span class="input-group-addon"><i class="fa fa-bitcoin"></i></span>-->
+							<!--<span class="input-group-addon" id="changeType"><span class="glyphicon glyphicon-sort"></span> <span class="addonBox">฿</span> </span>-->
+							<span class="input-group-addon" id="changeType"><span class="glyphicon glyphicon-sort"></span> <span class="addonBox">MFC </span> </span>
 
-			                	<div class="infoTitle">Only you have control of your wallet and MFCoins </div>
-			                	<div class="infoText">jswallet neither holds nor has access to your MFCoins or private keys. All information is stored on the client-side, so only you have control of your wallet and your MFCoins.</div>
+							<input class="form-control" placeholder="Amount" id="txtAmount" type="text" autocapitalize="off" autocorrect="off">
+							<span class="input-group-btn">
+								<span id="fiatPrice"></span>
+								<a class="btn btn-success" id="sendBtn" disabled="disabled">Send</a>				
+							</span>
 
-			                	<div class="infoTitle">Your URL is Your Key</div>
-			                	<div class="infoText">Bookmark your wallet’s secret URL to access your jswallet in the future. Please note, this is your private URL so do not share it with anyone. <b>If you lose this URL your MFCoins will be lost forever.</b></div>
+						</div>
 
-			                	<div class="infoTitle">Add a password for extra security</div>
-			                	<div class="infoText">When creating your jswallet there is an option to add a password to your account. You will need to enter this password every time you access your wallet. For your own security this wallet and the server hosting it does not store any data pertaining to your private key or password, so <strong>don’t forget your password!</strong><br><br>
-								<i>Please note, all transactions sent from your wallet include a .0001 mining fee. This fee helps support the MFCoin network and ensures your transaction goes through quickly.</i>
-			                	</div>
-			                	
-								<div class="infoTitle">Time delay and recommendations for use</div>
-			                	<div class="infoText">Because jswallet uses an external block explorer to calculate available funds, it may take up to 2 minutes for funds to show up in your wallet. Mining directly to this account is not recommended. Sending to P2SH (multi-sig) addresses is currently not supported. For additional security, you can export your brainwallet phrase and/or private key in case any issues arise (see the "settings" button).</div>
+					</div>
 
-			                	<div class="infoTitle">Max send feature</div>
-			                	<div class="infoText">Type "max" in the send amount field to see the maximum amount you can send from your wallet.</div>
+					<div id="qrInstall">
+						<div class="qrInstallTitle">Install QR Scanner (Optional)</div>
+
+						<div id="qrInstallX"><span class="glyphicon glyphicon-remove"></span></div>
+
+						<div class="clearfix"></div>
+
+						<div id="qrInstallInfo">Please <a target="_blank" href="https://itunes.apple.com/us/app/barcodes-scanner/id417257150?mt=8">install the QR Scanner</a> from the <span id="storeName">App Store</span></div>
+
+						<div id="qrInstallIcon"><a target="_blank" href="https://itunes.apple.com/us/app/barcodes-scanner/id417257150?mt=8"><img src="img/apple.png" alt=""></a></div>
+
+						<div class="clearfix"></div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+		<div class="container" id="txList">
+			<div id="txTitle">Transaction History</div>
+
+			<div class="break"></div>
+
+			<div id="noTx">No transactions</div>
+			<div id="noTx"><span id="explorerlink"></span></div>
+			<div class="table-responsive" id="txBox">
+				<table class="table table-hover" id="txTable">
+					<thead>
+						<tr id="tableHeader">
+							<th style="border-radius:7px 0 0 7px;">Date</th>
+							<th class="hidden-sm hidden-xs">Tx ID</th>
+							<th class="hidden-sm hidden-xs">Confirmations</th>
+
+							<th style="border-radius:0 7px 7px 0; padding-right:40px; text-align:right;">Amount</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div><center><br><b><font color="red">Note: Balance may be inaccurate until all transactions have at least one confirmation.</font></b>
+		</div>
+		
+
+				<div class="modal fade" id="infoModal">
+					<div class="modal-dialog">
+						<div class="modal-content">
+
+							<div class="modal-body">
+								<div class="modalBox orangeLinks">
+									<div class="modalTitle">
+										<div class="closeModal">
+											<span class="glyphicon glyphicon-remove"></span>
+										</div>
+										Help
+									</div>
+									<!--<div id="infoLogo"><img src="img/logo.png" alt=""></div>-->
+
+									<div class="infoText">jswallet is an instant cross-platform MFCoin wallet. By not requiring annoying logins and passwords, jswallet makes MFCoin simple to setup and easy to use.</div>
+
+									<div class="infoTitle">Only you have control of your wallet and MFCoins </div>
+									<div class="infoText">jswallet neither holds nor has access to your MFCoins or private keys. All information is stored on the client-side, so only you have control of your wallet and your MFCoins.</div>
+
+									<div class="infoTitle">Your URL is Your Key</div>
+									<div class="infoText">Bookmark your wallet’s secret URL to access your jswallet in the future. Please note, this is your private URL so do not share it with anyone. <b>If you lose this URL your MFCoins will be lost forever.</b></div>
+
+									<div class="infoTitle">Add a password for extra security</div>
+									<div class="infoText">When creating your jswallet there is an option to add a password to your account. You will need to enter this password every time you access your wallet. For your own security this wallet and the server hosting it does not store any data pertaining to your private key or password, so <strong>don’t forget your password!</strong><br><br>
+									<i>Please note, all transactions sent from your wallet include a .0001 mining fee. This fee helps support the MFCoin network and ensures your transaction goes through quickly.</i>
+									</div>
+									
+									<div class="infoTitle">Time delay and recommendations for use</div>
+									<div class="infoText">Because jswallet uses an external block explorer to calculate available funds, it may take up to 2 minutes for funds to show up in your wallet. Mining directly to this account is not recommended. Sending to P2SH (multi-sig) addresses is currently not supported. For additional security, you can export your brainwallet phrase and/or private key in case any issues arise (see the "settings" button).</div>
+
+									<div class="infoTitle">Max send feature</div>
+									<div class="infoText">Type "max" in the send amount field to see the maximum amount you can send from your wallet.</div>
+									
+
+									<div class="infoTitle">MFCoin price indicator</div>
+									<div class="infoText">The MFCoin price shown in the top header is calculated from cryptsy.com and the price shown in your currency of choice.</div>
+
+									<!--<div class="infoTitle">OneName Feature</div>
+									<div class="infoText">jswallet integrates with OneName, the Bitcoin user name registration service, for simple address lookups. Simply type in a OneName registered name when sending BTC from RushWallet and the address field will automatically populate.  For more information and to claim your Bitcoin user name please visit <a href="http://onename.io" target="_blank">OneName.io</a>.</div>-->
+									<div class="infoTitle">About</div>
+									<div class="infoText">jswallet is a fork of <a href="https://rushwallet.com/">RushWallet</a> by <a href="http://kryptokit.com/">kryptokit</a>.</div>
+
+									<!--<div class="infoTitle">Contact Us</div>
+									<div class="infoText"><a href="mailto:rush@kryptokit.com" style="color: #F49500;">rush@kryptokit.com</a></div>-->
+
+
+								</div>
+
+								
+							</div>
+							
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+				<!-- /.modal -->
+
+				<div class="modal fade" id="request">
+					<div class="modal-dialog">
+						<div class="modal-content">
+
+							<div class="modal-body">
+								<div class="modalBox">
+									<div class="modalTitle">
+										<div class="closeModal">
+											<span class="glyphicon glyphicon-remove"></span>
+										</div>
+										Receive
+									</div>
+
+									<!--<p>Requesting <span id="generateAmount"></span> BTC to:-->
+									<p>Requesting <span id="generateAmount"></span> MFC to:
+										<br>
+										<small><span id="generateAddress"></span></small>
+									</p>
+									<img src="img/qr.jpg" class="qrimage" id="receiveQR">
+								</div>
+
+								
+							</div>
+							
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+				<!-- /.modal -->
+
+
+
+				<div class="modal fade" id="passwordInfoModal">
+					<div class="modal-dialog">
+						<div class="modal-content">
+
+							<div class="modal-body">
+								<div class="modalBoxLeft">
+									<div class="modalTitle">
+										<div class="closeModal">
+											<span class="glyphicon glyphicon-remove"></span>
+										</div>
+										Password Recommendations
+									</div>
+
+									<div class="orangeText">Your wallet is only as secure as your password</div>
+									
+									<div class="blueText">No minimum password length requirement</div>
+
+									<div class="grayText">For ease of use, this is no minumum password length requirement. However, for increased security we recommend a password length of at least 8 characters. Using numbers, symbols, and a mix of upper and lower case letters in your password makes it harder for someone to guess your password.</div>
+
+								</div>
+
+								
+							</div>
+							
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+				<!-- /.modal -->
+
+				<div class="modal fade" id="settingsModal">
+					<div class="modal-dialog">
+						<div class="modal-content">
+
+							<div class="modal-body">
+								<div class="modalBox">
+									<div class="modalTitle">
+										<div class="closeModal">
+											<span class="glyphicon glyphicon-remove"></span>
+										</div>
+										<div id="settingsTitle">
+											<span class="glyphicon glyphicon-chevron-left"></span>  
+											<span id="settingsTitleText">Settings</span>       
+										</div>
+
+									</div>
+
+									<div id="settingsChoices">
+										<div class="settingsChoice" id="choiceCurrency">
+											<div class="settingsChoiceIcon"><span class="glyphicon glyphicon-usd"></span></div>
+											<div class="settingsChoiceText">Set<br>Currency</div>
+										</div>
+										<div class="settingsChoice" id="choiceMining">
+											<div class="settingsChoiceIcon"><span class="glyphicon glyphicon-flash"></span></div>
+											<div class="settingsChoiceText">Set<br>Mining Fee</div>
+										</div>     
+										<div class="settingsChoice" id="choiceExport">
+											<div class="settingsChoiceIcon"><span class="glyphicon glyphicon-export"></span></div>
+											<div class="settingsChoiceText">Export<br>Private Keys</div>
+										</div>    
+										<div class="clearfix"></div>                           
+									</div>
+
+									<div id="settingsCurrency">
+										<div class="form-group">
+										  <label for="currencySelect">Active currency</label>
+										  <select id="currencySelect" class="form-control">
+
+										  </select>
+										</div>
+									</div>
+
+									<div id="settingsExport">
+										<div class="form-group">
+										  <label>Brain Wallet</label>
+										  <input type="text" class="form-control" id="txtBrain" readonly="">                            
+		
+										  <label>Private Key</label>
+										  <input type="text" class="form-control" id="txtPrivate" readonly="">
+										  
+										</div>
+									</div>
+
+									<div id="settingsMining">
+										<div id="settingsMiningInfo">jswallet minimum transactions are 0.0001 MFC. Note that sending too little of a mining fee can greatly impact the speed at which your transactions are confirmed. You may change the fee below to alter the default mining fee.</div>
+										
+										<div class="break"></div>
+										<div class="miningOption">
+											<div class="miningOptionLeft">
+												<div class="settingsOption" type="frugal"></div>
+												<div class="settingsOptionText">Minimum</div>
+											</div>
+											<div class="miningOptionRight">A miner fee of 0.0001 MFC will not be included in the transaction. <span class="orangeText">Please note that transactions may be significantly slower to confirm. </span></div>
+											<div class="clearfix"></div>
+
+										</div>
+										
+										<div class="break"></div>
+
+										<div class="miningOption">
+											<div class="miningOptionLeft">
+												<div class="settingsOption" type="normal"></div>
+												<div class="settingsOptionText">Normal</div>
+											</div>
+											<div class="miningOptionRight"> The miner fee policy suggested by the standard MFCoin client of 0.0001 MFC will be used. <span class="blueText">Recommended.</span></div>
+											<div class="clearfix"></div>
+										</div>
+
+										<div class="break"></div>
+
+										<div class="miningOption">
+											<div class="miningOptionLeft">
+												<div class="settingsOption" type="generous"></div>
+												<div class="settingsOptionText">Generous</div>
+											</div>
+											<div class="miningOptionRight">A miner fee of 0.0005 MFC will be used as to ensure your transactions are processed quickly.</div>
+											<div class="clearfix"></div>
+										</div>
+
+										<div class="break"></div>
+
+										<div class="miningOption">
+											<div class="miningOptionLeft">
+												<div class="settingsOption" type="custom"></div>
+												<div class="settingsOptionText">Custom</div>
+											</div>
+											<div class="miningOptionRight">
+												Set a custom miner fee.
+												<div class="form-group" id="feeHolder">
+													<div class="input-group">
+														<!--<span class="input-group-addon">฿</span>-->
+														<span class="input-group-addon">MFC </span>
+
+														<input class="form-control" placeholder="Miner Fee" id="txtFeeAmount" type="text" autocapitalize="off" autocorrect="off">
+													
+														<span id="fiatPriceFee"></span>
+
+													</div>
+
+												</div>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+
+										<div class="break"></div>
+
+
+
+									</div>
 								
 
-								<div class="infoTitle">MFCoin price indicator</div>
-			                	<div class="infoText">The MFCoin price shown in the top header is calculated from cryptsy.com and the price shown in your currency of choice.</div>
+								</div>
 
-			                	<!--<div class="infoTitle">OneName Feature</div>
-			                	<div class="infoText">jswallet integrates with OneName, the Bitcoin user name registration service, for simple address lookups. Simply type in a OneName registered name when sending BTC from RushWallet and the address field will automatically populate.  For more information and to claim your Bitcoin user name please visit <a href="http://onename.io" target="_blank">OneName.io</a>.</div>-->
-								<div class="infoTitle">About</div>
-			                	<div class="infoText">jswallet is a fork of <a href="https://rushwallet.com/">RushWallet</a> by <a href="http://kryptokit.com/">kryptokit</a>.</div>
-
-			                	<!--<div class="infoTitle">Contact Us</div>
-			                	<div class="infoText"><a href="mailto:rush@kryptokit.com" style="color: #F49500;">rush@kryptokit.com</a></div>-->
-
-
-			                </div>
-
-			                
-			            </div>
-			            
-			        </div>
-			        <!-- /.modal-content -->
-			    </div>
-			    <!-- /.modal-dialog -->
-			</div>
-			<!-- /.modal -->
-
-	        <div class="modal fade" id="request">
-	            <div class="modal-dialog">
-	                <div class="modal-content">
-
-	                    <div class="modal-body">
-	                        <div class="modalBox">
-	                        	<div class="modalTitle">
-	                        		<div class="closeModal">
-	                        			<span class="glyphicon glyphicon-remove"></span>
-	                        		</div>
-	                        		Receive
-	                        	</div>
-
-	                        	<!--<p>Requesting <span id="generateAmount"></span> BTC to:-->
-	                        	<p>Requesting <span id="generateAmount"></span> MFC to:
-	                        	    <br>
-	                        	    <small><span id="generateAddress"></span></small>
-	                        	</p>
-	                        	<img src="img/qr.jpg" class="qrimage" id="receiveQR">
-	                        </div>
-
-	                        
-	                    </div>
-	                    
-	                </div>
-	                <!-- /.modal-content -->
-	            </div>
-	            <!-- /.modal-dialog -->
-	        </div>
-	        <!-- /.modal -->
+								
+							</div>
+							
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+				<!-- /.modal -->
 
 
+				<div class="modal fade" id="confirmModal">
+					<div class="modal-dialog">
+						<div class="modal-content">
 
-	        <div class="modal fade" id="passwordInfoModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
+							<div class="modal-body" id="confirmBody">
+								<div class="modalBox" id="confirmBox">
+									<p>Confirm that you are sending</p>
+									<p id="confirmAmountLine"><span id="confirmAmount"></span> (MFC)</p>
+									<p>to the following address</p>
+									<div id="confirmAddress"></div>
+									<small><span id="generateAddress"></span></small>
+								</div>
+									<button class="btn btn-default closeConfirm">Cancel</button> <button class="btn btn-success" id="confirmSend">Confirm</button>
 
-                        <div class="modal-body">
-                            <div class="modalBoxLeft">
-                                <div class="modalTitle">
-                                    <div class="closeModal">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </div>
-                                    Password Recommendations
-                                </div>
+									<div id="minerTxt">Please note, this transaction includes a <span id="txFee"></span> mining fee</div>
 
-                                <div class="orangeText">Your wallet is only as secure as your password</div>
-                                
-                                <div class="blueText">No minimum password length requirement</div>
+								
+							</div>
+							
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+				<!-- /.modal -->
+		<audio id="noise"></audio>
 
-                                <div class="grayText">For ease of use, this is no minumum password length requirement. However, for increased security we recommend a password length of at least 8 characters. Using numbers, symbols, and a mix of upper and lower case letters in your password makes it harder for someone to guess your password.</div>
-
-                            </div>
-
-                            
-                        </div>
-                        
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!-- /.modal -->
-
-            <div class="modal fade" id="settingsModal">
-	            <div class="modal-dialog">
-	                <div class="modal-content">
-
-	                    <div class="modal-body">
-	                        <div class="modalBox">
-	                        	<div class="modalTitle">
-	                        		<div class="closeModal">
-	                        			<span class="glyphicon glyphicon-remove"></span>
-	                        		</div>
-	                        		<div id="settingsTitle">
-                                        <span class="glyphicon glyphicon-chevron-left"></span>  
-                                        <span id="settingsTitleText">Settings</span>       
-                                    </div>
-
-	                        	</div>
-
-                                <div id="settingsChoices">
-                                    <div class="settingsChoice" id="choiceCurrency">
-                                        <div class="settingsChoiceIcon"><span class="glyphicon glyphicon-usd"></span></div>
-                                        <div class="settingsChoiceText">Set<br>Currency</div>
-                                    </div>
-                                    <div class="settingsChoice" id="choiceMining">
-                                        <div class="settingsChoiceIcon"><span class="glyphicon glyphicon-flash"></span></div>
-                                        <div class="settingsChoiceText">Set<br>Mining Fee</div>
-                                    </div>     
-                                    <div class="settingsChoice" id="choiceExport">
-                                        <div class="settingsChoiceIcon"><span class="glyphicon glyphicon-export"></span></div>
-                                        <div class="settingsChoiceText">Export<br>Private Keys</div>
-                                    </div>    
-                                    <div class="clearfix"></div>                           
-                                </div>
-
-                                <div id="settingsCurrency">
-                                    <div class="form-group">
-                                      <label for="currencySelect">Active currency</label>
-                                      <select id="currencySelect" class="form-control">
-
-                                      </select>
-                                    </div>
-                                </div>
-
-                                <div id="settingsExport">
-                                    <div class="form-group">
-                                      <label>Brain Wallet</label>
-                                      <input type="text" class="form-control" id="txtBrain" readonly="">                            
-    
-                                      <label>Private Key</label>
-                                      <input type="text" class="form-control" id="txtPrivate" readonly="">
-                                      
-                                    </div>
-                                </div>
-
-                                <div id="settingsMining">
-                                    <div id="settingsMiningInfo">jswallet minimum transactions are 0.0001 MFC. Note that sending too little of a mining fee can greatly impact the speed at which your transactions are confirmed. You may change the fee below to alter the default mining fee.</div>
-                                    
-                                    <div class="break"></div>
-                                    <div class="miningOption">
-                                        <div class="miningOptionLeft">
-                                            <div class="settingsOption" type="frugal"></div>
-                                            <div class="settingsOptionText">Minimum</div>
-                                        </div>
-                                        <div class="miningOptionRight">A miner fee of 0.0001 MFC will not be included in the transaction. <span class="orangeText">Please note that transactions may be significantly slower to confirm. </span></div>
-                                        <div class="clearfix"></div>
-
-                                    </div>
-                                    
-                                    <div class="break"></div>
-
-                                    <div class="miningOption">
-                                        <div class="miningOptionLeft">
-                                            <div class="settingsOption" type="normal"></div>
-                                            <div class="settingsOptionText">Normal</div>
-                                        </div>
-                                        <div class="miningOptionRight"> The miner fee policy suggested by the standard MFCoin client of 0.0001 MFC will be used. <span class="blueText">Recommended.</span></div>
-                                        <div class="clearfix"></div>
-                                    </div>
-
-                                    <div class="break"></div>
-
-                                    <div class="miningOption">
-                                        <div class="miningOptionLeft">
-                                            <div class="settingsOption" type="generous"></div>
-                                            <div class="settingsOptionText">Generous</div>
-                                        </div>
-                                        <div class="miningOptionRight">A miner fee of 0.0005 MFC will be used as to ensure your transactions are processed quickly.</div>
-                                        <div class="clearfix"></div>
-                                    </div>
-
-                                    <div class="break"></div>
-
-                                    <div class="miningOption">
-                                        <div class="miningOptionLeft">
-                                            <div class="settingsOption" type="custom"></div>
-                                            <div class="settingsOptionText">Custom</div>
-                                        </div>
-                                        <div class="miningOptionRight">
-                                            Set a custom miner fee.
-                                            <div class="form-group" id="feeHolder">
-                                                <div class="input-group">
-                                                    <!--<span class="input-group-addon">฿</span>-->
-                                                    <span class="input-group-addon">MFC </span>
-
-                                                    <input class="form-control" placeholder="Miner Fee" id="txtFeeAmount" type="text" autocapitalize="off" autocorrect="off">
-                                                
-                                                    <span id="fiatPriceFee"></span>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-
-                                    <div class="break"></div>
-
-
-
-                                </div>
-                            
-
-	                        </div>
-
-	                        
-	                    </div>
-	                    
-	                </div>
-	                <!-- /.modal-content -->
-	            </div>
-	            <!-- /.modal-dialog -->
-	        </div>
-	        <!-- /.modal -->
-
-
-			<div class="modal fade" id="confirmModal">
-			    <div class="modal-dialog">
-			        <div class="modal-content">
-
-			            <div class="modal-body" id="confirmBody">
-			                <div class="modalBox" id="confirmBox">
-								<p>Confirm that you are sending</p>
-			                	<p id="confirmAmountLine"><span id="confirmAmount"></span> (MFC)</p>
-			                	<p>to the following address</p>
-			                	<div id="confirmAddress"></div>
-		                	    <small><span id="generateAddress"></span></small>
-			                </div>
-								<button class="btn btn-default closeConfirm">Cancel</button> <button class="btn btn-success" id="confirmSend">Confirm</button>
-
-								<div id="minerTxt">Please note, this transaction includes a <span id="txFee"></span> mining fee</div>
-
-			                
-			            </div>
-			            
-			        </div>
-			        <!-- /.modal-content -->
-			    </div>
-			    <!-- /.modal-dialog -->
-			</div>
-			<!-- /.modal -->
-    <audio id="noise"></audio>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bitcoinjs.min.js"></script>
-    <script src="js/bitcointjs.min.js"></script>
-    <script src="js/rw.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/tx.js"></script>
-    <script src="js/util.js"></script>
-    <script src="js/moment.js"></script>
-</body></html>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/bitcoinjs.min.js"></script>
+		<script src="js/bitcointjs.min.js"></script>
+		<script src="js/rw.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/tx.js"></script>
+		<script src="js/util.js"></script>
+		<script src="js/moment.js"></script>
+	</body></html>
