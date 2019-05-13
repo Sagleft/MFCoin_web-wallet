@@ -28,28 +28,13 @@
 		<link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16" />  
 		<link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
 		<link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96" />
-	   
-		 <style>
-			.container {
-				position: relative;
-			}
-			* {
-				font-family: "OpenSansRegular" , Helvetica, sans-serif;
-			}
-		</style>
 	</head>
-
 	<body style="zoom: 1;">
 		<nav class="banner navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
-				<!--<a class="brand" href="/">
-					<img src="img/logo.png" alt="" style="margin-top: -4px; width: 129px;">-->
 				<a class="KKBrand" href="https://wallet.mfcoin.net">
 					MFCoin Wallet
 				</a>
-				<!--<a class="KKBrand" href="http://kryptokit.com" target="_blank">
-					by Kryptokit
-				</a>-->
 				<div id="price"></div>
 				<div id="settings"><span class="glyphicon glyphicon-cog"></span></div>
 				<div id="info"><span class="glyphicon glyphicon-info-sign"></span></div>
@@ -59,14 +44,8 @@
 		<div id="generate" style="display: block;">
 			<section class="dark">
 				<div class="container">
-					<!-- <button class="" id="passBtn"> <span class="hl">Create wallet with password</span> <span class="glyphicon"></span></button> -->
-
-
-					<div id="leadTxt">Move your mouse randomly inside the box until your Myriadcoin wallet appears</div>
-
-
+					<div class="alert alert-info">Move your mouse randomly inside the box until your MFCoin wallet appears</div>
 					<div id="passBox">
-						
 						<div id="passBoxTxt">
 							<div class="KKCheck">
 								<div class="KKCheckInner"><span class="glyphicon glyphicon-ok" id="checkIcon"></span></div>	
@@ -76,9 +55,6 @@
 					</div>
 
 					<div id="tapBox" class="tapBox">
-						<!--                     <img src="img/ripple.png" alt="" id="tapGif" width="150" class="tapBox">
-	 -->
-
 						<div id="code"></div>
 						<div class="ripples" style="display: none;">  
 						  <div class="ripple ripple-1"></div>
@@ -90,40 +66,27 @@
 							<div id="progressFill"></div>
 							<img src="img/progress_lock.png" alt="" id="progressLockImg" class="tapBox" width="236">
 						</div>
-
 					</div>
-
-
-
 					<div id="createPassword" class="bg-warning">
-
 						<div class="input-group">
 							<input type="password" class="form-control" id="createPasswordTxt">
 							<span class="input-group-btn">
 								<button type="button" class="btn btn-success" id="createWallet" disabled="disabled">Create Wallet</button>
 							</span>
 						</div>
-
 					</div>
 
 					<div id="openPassword" class="bg-warning">
-						<!-- <label for="exampleInputEmail1">Please enter a password to open this wallet</label> -->
-
-
 						<div class="input-group">
 							<input type="password" class="form-control" id="openPasswordTxt">
 							<span class="input-group-btn">
 								<button type="button" class="btn btn-success" id="openWallet" disabled="disabled">Open Wallet</button>
 							</span>
 						</div>
-
-
 					</div>
 
 					<div class="alert alert-danger" id="loginError"></div>
-
 				</div>
-				<!-- <p><a href="address.php">Continue</a></p> -->
 			</section>
 		</div>
 
@@ -133,7 +96,6 @@
 			<div id="addressBox">
 				<div id="addressTxt">Your MFCoin address</div>
 				<span id="address"></span>
-
 			</div>
 
 			<div id="walletInfo">
@@ -141,7 +103,6 @@
 					<div class="">
 						<div id="leftInfo">
 							<div class="balance">
-								<!--฿<span id="btcBalance"></span>-->
 								<span class="coin">MFC </span><span id="btcBalance"></span>
 							</div>
 							<div class="currency">
@@ -153,16 +114,14 @@
 						</div>
 						<div class="clearfix"></div>
 					</div>
-
-
 				</div>
 			</div>
 
 			<div id="tabButtons">
 				<a class="tabButton" id="receiveBoxBtn">
-					<!--<img src="img/receive.png" alt="" class="btnIcon">--><span class="glyphicon glyphicon-save"> Receive</span></a>
+					<span class="glyphicon glyphicon-save"> Receive</span></a>
 				<a class="tabButton" id="sendBoxBtn">
-					<!--<img src="img/send.png" alt="" class="btnIcon" id="sendIcon">--><span class="glyphicon glyphicon-open"> Send</span></a>
+					<span class="glyphicon glyphicon-open"> Send</span></a>
 				<div class="clearfix"></div>
 			</div>
 
@@ -171,11 +130,7 @@
 					<div class="actionText">Generate a payment request</div>
 
 					<div class="form-group">
-					   
-
 						<div class="input-group">
-							<!-- <span class="input-group-addon"><i class="fa fa-bitcoin"></i></span>-->
-							<!--<span class="input-group-addon" id="changeType2"><span class="glyphicon glyphicon-sort"></span> <span class="addonBox2">฿</span> </span>-->
 							<span class="input-group-addon" id="changeType2"><span class="glyphicon glyphicon-sort"></span> <span class="addonBox2">MFC </span> </span>
 
 							<input class="form-control" placeholder="Amount" id="txtReceiveAmount" type="text" autocapitalize="off" autocorrect="off">
@@ -188,18 +143,14 @@
 
 					 </div>
 
-				 
 				</div>
 				<div id="sendBox">
 					<div class="actionText">Send</div>
 					<div class="alert alert-warning" id="errorBox">
-						<!-- <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> -->
 						<div id="errorTxt"></div>
 					</div>
 
 					<div class="form-group">
-						<!-- <div id="reader" style="width:100px;height:100px">
-						 </div> -->
 						<div class="input-group" style="width:100%">
 							
 							<input type="text" class="form-control" placeholder="Receiving address" id="txtAddress" autocapitalize="off" autocorrect="off">
@@ -212,8 +163,6 @@
 					</div>
 					<div class="form-group">
 						<div class="input-group">
-							<!-- <span class="input-group-addon"><i class="fa fa-bitcoin"></i></span>-->
-							<!--<span class="input-group-addon" id="changeType"><span class="glyphicon glyphicon-sort"></span> <span class="addonBox">฿</span> </span>-->
 							<span class="input-group-addon" id="changeType"><span class="glyphicon glyphicon-sort"></span> <span class="addonBox">MFC </span> </span>
 
 							<input class="form-control" placeholder="Amount" id="txtAmount" type="text" autocapitalize="off" autocorrect="off">
@@ -266,9 +215,8 @@
 
 					</tbody>
 				</table>
-			</div><center><br><b><font color="red">Note: Balance may be inaccurate until all transactions have at least one confirmation.</font></b>
+			</div><center><br><b><div class="alert alert-info">Note: Balance may be inaccurate until all transactions have at least one confirmation.</div></b>
 		</div>
-		
 
 				<div class="modal fade" id="infoModal">
 					<div class="modal-dialog">
@@ -282,7 +230,6 @@
 										</div>
 										Help
 									</div>
-									<!--<div id="infoLogo"><img src="img/logo.png" alt=""></div>-->
 
 									<div class="infoText">jswallet is an instant cross-platform MFCoin wallet. By not requiring annoying logins and passwords, jswallet makes MFCoin simple to setup and easy to use.</div>
 
@@ -306,15 +253,12 @@
 
 									<div class="infoTitle">MFCoin price indicator</div>
 									<div class="infoText">The MFCoin price shown in the top header is calculated from cryptsy.com and the price shown in your currency of choice.</div>
-
-									<!--<div class="infoTitle">OneName Feature</div>
-									<div class="infoText">jswallet integrates with OneName, the Bitcoin user name registration service, for simple address lookups. Simply type in a OneName registered name when sending BTC from RushWallet and the address field will automatically populate.  For more information and to claim your Bitcoin user name please visit <a href="http://onename.io" target="_blank">OneName.io</a>.</div>-->
+									
 									<div class="infoTitle">About</div>
 									<div class="infoText">jswallet is a fork of <a href="https://rushwallet.com/">RushWallet</a> by <a href="http://kryptokit.com/">kryptokit</a>.</div>
-
-									<!--<div class="infoTitle">Contact Us</div>
-									<div class="infoText"><a href="mailto:rush@kryptokit.com" style="color: #F49500;">rush@kryptokit.com</a></div>-->
-
+									
+									<div class="infoText">(C) MFCoin Team - 2017.</div>
+									<div class="infoText">(C) Sagleft - 2019.</div>
 
 								</div>
 
@@ -341,7 +285,6 @@
 										Receive
 									</div>
 
-									<!--<p>Requesting <span id="generateAmount"></span> BTC to:-->
 									<p>Requesting <span id="generateAmount"></span> MFC to:
 										<br>
 										<small><span id="generateAddress"></span></small>
@@ -358,8 +301,6 @@
 					<!-- /.modal-dialog -->
 				</div>
 				<!-- /.modal -->
-
-
 
 				<div class="modal fade" id="passwordInfoModal">
 					<div class="modal-dialog">
@@ -492,7 +433,6 @@
 												Set a custom miner fee.
 												<div class="form-group" id="feeHolder">
 													<div class="input-group">
-														<!--<span class="input-group-addon">฿</span>-->
 														<span class="input-group-addon">MFC </span>
 
 														<input class="form-control" placeholder="Miner Fee" id="txtFeeAmount" type="text" autocapitalize="off" autocorrect="off">
@@ -508,11 +448,8 @@
 
 										<div class="break"></div>
 
-
-
 									</div>
 								
-
 								</div>
 
 								
@@ -524,7 +461,6 @@
 					<!-- /.modal-dialog -->
 				</div>
 				<!-- /.modal -->
-
 
 				<div class="modal fade" id="confirmModal">
 					<div class="modal-dialog">
@@ -542,7 +478,6 @@
 
 									<div id="minerTxt">Please note, this transaction includes a <span id="txFee"></span> mining fee</div>
 
-								
 							</div>
 							
 						</div>
@@ -563,4 +498,5 @@
 		<script src="js/tx.js"></script>
 		<script src="js/util.js"></script>
 		<script src="js/moment.js"></script>
-	</body></html>
+	</body>
+</html>
