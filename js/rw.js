@@ -1,5 +1,4 @@
 rush = window.rush = {
-
     "passcode": "",
     "address": "",
     "explorerlink": "",
@@ -22,19 +21,16 @@ rush = window.rush = {
     "useFiat2": false,
     "firstTime":false,
     "currency": "USD",
-    "currencyOptions": ["AUD","BRL","CAD","CHF","CNY","DKK","EUR","GBP","HKD","INR", "ISK", "JPY","KRW","NZD","PLN","RUB","SEK","SGD","TWD","USD","ZAR","BTC","mBTC","bits","Gold (ozt)","Silver (ozt)","Gold (g)","Silver (g)"],
-    //"currencyOptions": ["AUD","BRL","CAD","CHF","CNY","DKK","EUR","GBP","HKD","INR", "ISK", "JPY","KRW","NZD","PLN","RUB","SEK","SGD","TWD","USD","ZAR"],
+    "currencyOptions": ["CNY","EUR","JPY","RUB","USD","BTC","KZT","UAH"],
     "getBalanceBlock": false,
 
     "open": function ()
     {
-        if ( readCookie("currency") != "" )
-        {
+        if ( readCookie("currency") != "" ) {
             this.currency = readCookie("currency");
         }
 
-        if ( readCookie("txFee") != "" )
-        {
+        if ( readCookie("txFee") != "" ) {
             this.txFee = readCookie("txFee");
         }
 
@@ -44,8 +40,7 @@ rush = window.rush = {
         var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
         var url = window.location.href;
         target.postMessage(url, '*');
-
-
+		//TODO: вынести ссылку на block explorer в отдельный подключаемый js с параметрами
         //$("#address").html(this.address);
         $("#address").html("<a href=\"https://block.mfcoin.net/address/"+this.address+"\" target=\"_blank\">"+this.address+"</a>");
         $("#explorerlink").html("<a href=\"https://block.mfcoin.net/address/" + this.address + "\" target=\"_blank\"></a>");
@@ -53,22 +48,18 @@ rush = window.rush = {
         $(".qrimage").attr("src", "https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=MFCoin%3A" + this.address + "&chld=H|0")
 
         rush.getBalance();
-
+		//TODO: решить, удалить ли этот фрагмент
         var socket = new WebSocket("wss://ws.blockchain.info/inv");
 
-        socket.onopen = function (msg)
-        {
+        socket.onopen = function (msg) {
             var message = {
                 "op": 'addr_sub',
                 "addr": rush.address
             };
 
-
             socket.send(JSON.stringify(message));
         }
-
-        socket.onmessage = function (msg)
-        {
+        socket.onmessage = function (msg) {
             //console.log(msg);
             setTimeout(function ()
             {
@@ -77,19 +68,18 @@ rush = window.rush = {
                     rush.getBalance();
                     playBeep();
                 }
-
             }, 500);
         }
 
         //url = "https://rushwallet.com/?z=" + ( Math.floor(Math.random() * 9999999) + 1 ) + "#" + rush.passcode + "&{CODE}";
+		//WTF??!
+		//TOQ
         url = "http://45.55.87.27/?z=" + ( Math.floor(Math.random() * 9999999) + 1 ) + "#" + rush.passcode + "&{CODE}";
         url2="zxing://scan/?ret=" + encodeURIComponent( url ) + "&SCAN_FORMATS=QR";
         //console.log( url);
         $("#qrlink").attr("href", url2);
 
-
-        if ( rush.firstTime )
-        {
+        if ( rush.firstTime ) {
             $("#saveURLHolder, #saveURL").show();
 
             setTimeout( function()
@@ -99,15 +89,11 @@ rush = window.rush = {
             }, 600000);
 
             //ga( "send", "event", "Create", "Wallet" );
-
-        }        
-        else
-        {
+        } else {
             //ga( "send", "event", "Open", "Wallet" );
-
         }
     
-
+		//gpg? //TOQ
         // this.getHistory();
         
         // if ( rush.lastTab == "gpg" )
@@ -117,21 +103,15 @@ rush = window.rush = {
         //         rush.openGpgTab();
         //     }, 200);
         // }
-
-        setInterval( function()
-        {
+		
+        setInterval(function() {
             rush.getFiatPrice();
-        }, 300000);
+        }, 600000);
         
-		setInterval( function()
-        {
+		setInterval(function() {
             rush.getBalance();
-        }, 120000);
-
-
+        }, 300000);
     },
-
-   
     "check": function ()
     {
 
@@ -260,10 +240,8 @@ rush = window.rush = {
     },
     "generate": function ()
     {
-
         $("#txtReceiveAmount").blur();
         $('html, body').animate({ scrollTop: 0 }, 'fast');
-
 
         setTimeout( function () {
 
@@ -271,10 +249,6 @@ rush = window.rush = {
             rush.generateNow();
 
         }, 1000);
-
-       
-
-        
     },
     "generateNow": function ()
     {
@@ -293,11 +267,10 @@ rush = window.rush = {
 
         $("#generateAddress").html( this.address );
     },
-    "getHistory": function ()
-    {
-        //var url = "https://btc.blockr.io/api/v1/address/txs/" + this.address;
-        var url = "https://block.mfcoin.net/api/txs/?address=" + this.address;
-	var thisaddr = this.address;
+    "getHistory": function() {
+		//запрос транзакций адреса
+        var url = "http://satellite/txs?addr=" + this.address;
+		var thisaddr = this.address;
 
         $("#txTable tbody").html("");
 
@@ -307,56 +280,38 @@ rush = window.rush = {
             url: url,
             async: true,
             dataType: "json",
-            data:
-            {}
-
-        }).done(function (msg)
-        {
-		//console.log(msg);
-            //if ( msg.data.txs.length > 0 )
-            if ( msg.txs.length > 0 )
-            {
+            data: {}
+        }).done(function(msg) {
+            if ( msg.txs.length > 0 ) {
                 $("#txBox").show();
                 $("#noTx, #txList .break").hide();
             }
-
-            //for ( i in msg.data.txs )
-            //for ( i=0;i<msg.data.txs.length;i++ )
-            for ( i=0;i<msg.txs.length;i++ )
-            {
-                //txTime = moment( msg.data.txs[i].time_utc ).format( "MMM D YYYY [<span class='time'>]h:mma[</span>]" );
+			
+            for ( i=0; i < msg.txs.length; i++) {
                 txTime = moment( msg.txs[i].time*1000 ).format( "MMM D YYYY [<span class='time'>]h:mma[</span>]" );
-                if ( txTime == 'Invalid date' ) { txTime = 'unconfirmed'; }
-
-		// Attempt to calculate value:
-		txs = msg.txs[i];
-		// get input if they are not ours:
-		satin=0;
-		for (ins=0;ins<txs.vin.length;ins++ )
-		{
-			if (thisaddr != txs.vin[ins].addr) {
-				satin = satin+parseFloat(txs.vin[ins].value);
-			}
-		}
-		// get outputs if they are not ours:
-		satout=0;
-		for (outs=0;outs<txs.vout.length;outs++ )
-		{
-			if (thisaddr != txs.vout[outs].scriptPubKey.addresses[0]) {
-				satout = satout+parseFloat(txs.vout[outs].value);
-			}
-		}
-		tot = satin-satout;
-		//console.log('ins is: '+satin);
-		//console.log('outs is: '+satout);
-		//console.log('Total is: '+tot);
-		// if total is less than zero, it's outgoing and add fees:
-		//if ( tot < 0.0 )
-		//{
-		//	tot = tot - txs.fees;
-		//}
-		tot = tot - txs.fees;
-		tot = tot.toFixed(8);
+                if ( txTime == 'Invalid date' ) {
+					txTime = 'unconfirmed';
+				}
+				
+				// Attempt to calculate value:
+				txs = msg.txs[i];
+				// get input if they are not ours:
+				satin = txs.total_input;
+				//for (ins=0;ins<txs.vin.length;ins++ ) {
+				//	if (thisaddr != txs.vin[ins].addr) {
+				//		satin = satin + parseFloat(txs.vin[ins].value);
+				//	}
+				//}
+				// get outputs if they are not ours:
+				satout = txs.total_output;
+				//for (outs=0;outs<txs.vout.length;outs++ ) {
+				//	if (thisaddr != txs.vout[outs].scriptPubKey.addresses[0]) {
+				//		satout = satout+parseFloat(txs.vout[outs].value);
+				//	}
+				//}
+				tot = satin - satout;
+				tot = tot - txs.fees;
+				tot = tot.toFixed(8);
 
                 confirms = msg.txs[i].confirmations;
                 if ( confirms == undefined ) { confirms = 0; }
@@ -369,17 +324,10 @@ rush = window.rush = {
                 if ( $(this).html() > 0 )
                 {
                     $(this).css({color: "#F49500", "text-align":"right", "padding-right": "30px"});
-                }
-                else
-                {
+                } else {
                     $(this).css({color: "#52B3EA", "text-align":"right", "padding-right": "30px"});
-
                 }
-
             });
-
-
-
             rush.getUnconfirmed();
         });
 
@@ -389,10 +337,10 @@ rush = window.rush = {
         this.txFee = parseFloat( fee );
         setCookie( "txFee", parseFloat(fee), 100 );
     },
-    "getUnconfirmed": function ()
+    "getUnconfirmed": function()
     {
-        //var url = "https://btc.blockr.io/api/v1/address/unconfirmed/" + this.address;
-        var url = "https://block.mfcoin.net/api/addr/" + this.address;
+        //var url = "https://block.mfcoin.net/api/addr/" + this.address;
+        var url = "http://satellite/getbalance?addr=" + this.address;
 
         $.ajax(
         {
@@ -402,38 +350,12 @@ rush = window.rush = {
             dataType: "json",
             data:
             {}
-
-        }).done(function (msg)
-        {
+        }).done(function (msg) {
             unconfirmed = "";
-
             unconfirmedArr = Array();
-
             unconfirmedCount = 0;
-
-            //console.log(msg);
-
-            //for ( i in msg.data.unconfirmed )
-            //{
-            //    unconfirmedCount++;
-            //    if ( unconfirmedArr[msg.data.unconfirmed[i].tx] == undefined )
-            //    {
-            //        unconfirmedArr[msg.data.unconfirmed[i].tx] = {};
-            //    }
-            //
-            //    if ( unconfirmedArr[msg.data.unconfirmed[i].tx].amount == undefined )
-            //    {
-            //        unconfirmedArr[msg.data.unconfirmed[i].tx].amount = msg.data.unconfirmed[i].amount;
-            //    }
-            //    else
-            //    {
-            //        unconfirmedArr[msg.data.unconfirmed[i].tx].amount += msg.data.unconfirmed[i].amount;
-            //    }
-            //
-            //    unconfirmedArr[msg.data.unconfirmed[i].tx].time_utc = msg.data.unconfirmed[i].time_utc;
-            //}
-            
-            if ( msg.unconfirmedTxApperances > 0 )
+			
+            /* if ( msg.unconfirmedTxApperances > 0 )
             {
                 unconfirmedCount++;
                 if ( unconfirmedArr[1] == undefined )
@@ -451,23 +373,13 @@ rush = window.rush = {
                 }
 
                 unconfirmedArr[1].time_utc = 'unknown';
-            }
+            } */
 
             if ( unconfirmedCount > 0 )
             {
                 $("#txBox").show();
                 $("#noTx, #txList .break").hide();
             }
-        
-
-            for ( i in unconfirmedArr )
-            {
-                //txTime = moment( unconfirmedArr[i].time_utc ).format( "MMM D YYYY [<span class='time'>]h:mma[</span>]" );
-
-                //unconfirmed += '<tr><td>' + txTime + '</td><td class="hidden-sm hidden-xs"><a href="https://blockchain.info/tx/' + i + '" target="_blank">' + i.substring(0,30) + '</a></td><td class="hidden-sm hidden-xs">0</td><td>' + btcFormat( unconfirmedArr[i].amount ) + '</td></tr>';
-                //unconfirmed += '<tr><td>' + txTime + '</td><td class="hidden-sm hidden-xs"><a href="https://block.mfcoin.nettx/' + i + '" target="_blank">' + i.substring(0,30) + '</a></td><td class="hidden-sm hidden-xs">0</td><td>' + btcFormat( unconfirmedArr[i].amount ) + '</td></tr>';
-            }
-
 
             $("#txTable tbody").prepend( unconfirmed );
 
@@ -476,26 +388,17 @@ rush = window.rush = {
                if ( $(this).html() > 0 )
                {
                    $(this).css({color: "#F49500", "text-align":"right", "padding-right": "30px"});
-               }
-               else
-               {
+               } else {
                    $(this).css({color: "#52B3EA", "text-align":"right", "padding-right": "30px"});
 
                }
-
             });
-
-
-
         });
-
     },
-
     "getBalance": function ()
     {
-        //var url = "https://blockchain.info/q/addressbalance/" + this.address;
         //var url = "https://block.mfcoin.net/api/addr/" + this.address + "/balance";
-        var url = "https://block.mfcoin.net/api/addr/" + this.address;
+        var url = "http://satellite/getbalance?addr=" + this.address;
 
         $.ajax(
         {
@@ -505,37 +408,25 @@ rush = window.rush = {
             data:
             {}
 
-        }).done(function (msg)
-        {
-
-            //rush.balance = msg / 100000000;
+        }).done(function (msg) {
+			//TODO
+			//пока без unconfirmed
+            //rush.balance = msg.balance + msg.unconfirmedBalance;
+            rush.balance = +(msg); //string to float
+			var spendable = rush.balance - rush.txFee;
+			console.log("Spendable balance: " + spendable.toFixed(2));
 			
-						//doesnt work for some reason
-						/*		var b = 0.0;
-						for (txindy in msg) {
-							tx = msg[txindy];
-							b += tx['amount'];
-						}
-						rush.balance = b; */
-						
-            rush.balance = msg.balance + msg.unconfirmedBalance;
-            var spendable = rush.balance - rush.txFee;
-
-            if (spendable < 0)
-                spendable = 0;
-
+            if (spendable < 0) {
+				spendable = 0;
+			}
+			
             $("#btcBalance").html( btcFormat( rush.balance ) );
-            //$("#spendable").html("฿" + btcFormat( spendable ) );
             $("#spendable").html("MFC " + btcFormat( spendable ) );
 
             rush.getFiatPrice();
 
             setTimeout( function () {rush.getHistory()}, 1000);
-
         });
-
-
-
     },
     "getFiatPrefix": function()
     {
@@ -551,48 +442,20 @@ rush = window.rush = {
                 return "$";
                 break;
             case "BRL":
-                return "R$"; 
+                return "R$";
             case "CNY":
-                return "¥";            
-            case "DKK":
-                return "kr";
+                return "¥";
             case "EUR":
-                return "€";            
-            case "GBP":
-                return "£";            
-            case "INR":
-                return "";
-            case "ISK":
-                return "kr";            
+                return "€";
             case "JPY":
                 return "¥";
-            case "KRW":
-                return "₩";            
-            case "PLN":
-                return "zł";
             case "RUB":
-                return "руб ";            
-            case "SEK":
-                return "kr ";
-            case "TWD":
-                return "NT$";
+                return "руб ";
             case "BTC":
                 return "฿";
-            case "mBTC":
-                return "m฿";
-            case "bits":
-                return "µ฿";
-            case "Gold (ozt)":
-                return "ozt ";
-            case "Silver (ozt)":
-                return "ozt ";
-            case "Gold (g)":
-                return "g ";
-            case "Silver (g)":
-                return "g ";
-
             default:
-                return "$";
+				//по умолчанию пусть возвращает код валюты
+                return this.currency + " ";
         }
     },
     "getFiatValue": function ()
@@ -608,17 +471,14 @@ rush = window.rush = {
         currency = this.currency;
 
         $.ajax({
-            type: "GET",
-            //url: "https://rushwallet.com/ticker2.php",
-            url: "http://45.55.87.27/ticker.php",
-            async: true,
-            data: {},
-            dataType: "json"
-
+			type: "GET",
+			url: "http://api.mfc-market.ru/ticker_local",
+			async: true,
+			data: {},
         }).done(function (msg) {
-            
-
-			price = msg[currency].last;
+			//TODO: проверку json-объекта
+			var rates_obj = JSON.parse(msg);
+			price = +(rates_obj[rush.currency]);
 
             rush.price = price;
 			tprice = price*1;
@@ -631,8 +491,6 @@ rush = window.rush = {
             $("#currencyValue").html( rush.currency );
 
             rush.getFiatValue();
-
-
         });
 
     },
@@ -647,15 +505,12 @@ rush = window.rush = {
         {
             amount = 0;
         }
-
         
         if ( rush.useFiat )
         {
             var btcValue = amount / this.price;
             btcValue = btcFormat( btcValue );
-            //$("#fiatPrice").html("(฿" + btcValue + ")");
             $("#fiatPrice").html("(MFC " + btcValue + ")");
-
         }
         else
         {
@@ -684,19 +539,14 @@ rush = window.rush = {
         {
             var btcValue = amount / this.price;
             btcValue = btcFormat( btcValue );
-            //$("#fiatPrice2").html("(฿" + btcValue + ")");
             $("#fiatPrice2").html("(MFC " + btcValue + ")");
-
-        }
-        else
-        {
+        } else {
             var fiatValue = this.price * amount;
 
             fiatValue = fiatValue.toFixed(2);
 
             $("#fiatPrice2").html("(" + this.getFiatPrefix() + formatMoney(fiatValue) + ")");
         }
-
     },
     "prepareReset": function ()
     {
@@ -704,14 +554,7 @@ rush = window.rush = {
     },
     "reset": function ()
     {
-
-
         $("#errorBox").hide();
-
-        // chrome.storage.local.set(
-        // {
-        //     'encrypted': false
-        // }, function () {});
 
         $("#balanceBox").hide();
         $("#password").hide();
@@ -722,16 +565,11 @@ rush = window.rush = {
         this.txSec = "";
         entroMouse.string = "";
         entroMouse.start();
-
     },
     
     "txComplete": function ()
     {
-  
-        //ga( "send", "event", "Send", "Wallet" );
-
         setMsg("Payment sent!", true);
-
 
         $("#sendBtn").removeAttr("disabled");
         $("#sendBtn").html("Send");
@@ -745,7 +583,6 @@ rush = window.rush = {
         $("#fiatPrice").show();
 
         $("#oneNameInfo").hide();
-
 
         this.getBalance();
         playBeep();
@@ -764,9 +601,7 @@ rush = window.rush = {
         if (!this.encrypted)
         {
             setMsg("" + rush.passcode);
-        }
-        else
-        {
+        } else {
             if ($("#password").val() == "")
             {
                 setMsg("Please enter password to decrypt wallet.");
@@ -786,16 +621,13 @@ rush = window.rush = {
             setMsg("Brainwallet: " + passcode);
 
             $("#password").val("");
-
         }
 
     },
     "importWallet": function ()
     {
         setMsg("Importing a brain wallet will replace your current wallet. You will lose your balance if you haven't backed it up!<br/><input type='text' id='importBrainTxt' placeholder='Brainwallet'> <button id='confirmImport'>Import</button>");
-    },
-    "confirmImport": function ()
-    {
+    }, "confirmImport": function() {
 
         if (!$("#confirmImport").attr("confirmed"))
         {
@@ -833,36 +665,20 @@ rush = window.rush = {
         });
 
         setMsg("Brainwallet imported succesfully!");
-
-
-
     }
-    
-   
-
-
 };
 
-function popup(txt)
-{
+function popup(txt) {
     setGPGMsg('<textarea id="gpgBox" readonly></textarea>');
-
     $("#gpgBox").val(txt);
 }
 
-function popupMsg(txt)
-{
-    // txt = txt.replace(/\n/g, '<br />');
+function popupMsg(txt) {
     setGPGMsg('<div id="messageBox">' + txt + '</div>');
 }
 
-
-$(document).ready(function ()
-{
-
+$(document).ready(function () {
     var code = window.location.hash;
-
-
 });
 
 Date.prototype.format = function (format) //author: meizz
@@ -888,33 +704,30 @@ Date.prototype.format = function (format) //author: meizz
     return format;
 }
 
-function formatMoney(x)
-{
+function formatMoney(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function htmlEncode(value)
-{
+function htmlEncode(value) {
     //create a in-memory div, set it's inner text(which jQuery automatically encodes)
     //then grab the encoded contents back out.  The div never exists on the page.
     return $('<div/>').text(value).html();
 }
 
-function s2hex(s)
-{
+function s2hex(s) {
     return Bitcoin.convert.bytesToHex(Bitcoin.convert.stringToBytes(s))
 }
 
-function playBeep()
-{
+function playBeep() {
+	//TODO: заменить на что-нибудь другое
     var snd = document.getElementById('noise');
     snd.src = 'balance.wav';
     snd.load();
     snd.play();
 }
 
-function playBaron()
-{
+function playBaron() {
+	//TODO: удалить этот мусор и заменить его другим
     var snd = document.getElementById('noise');
     rush.snd = snd;
     snd.src = 'baron.mp3';
@@ -922,8 +735,7 @@ function playBaron()
     snd.play();
 }
 
-function playTurn()
-{
+function playTurn() {
     var snd = document.getElementById('noise');
     rush.snd = snd;
     snd.src = 'turn.mp3';
@@ -944,20 +756,15 @@ function ajax(url,success,data) {
     xhr.send(data);
 }
 
-function tx_fetch(url, onSuccess, onError, postdata)
-{
+function tx_fetch(url, onSuccess, onError, postdata) {
     $.ajax(
     {
         url: url,
         data: postdata || '',
         type: "POST",
-        success: function (res)
-        {
+        success: function (res) {
             onSuccess(JSON.stringify(res));
-
-        },
-        error: function (xhr, opt, err)
-        {
+        }, error: function (xhr, opt, err) {
             // console.log("error!");
         }
     });
@@ -968,16 +775,12 @@ function setMsg( msg, green )
     $("#errorBox").slideDown();
     $("#errorTxt").html( msg );
 
-    if ( green )
-    {
+    if( green ) {
         $("#errorBox").addClass("green");
-    }
-    else
-        $("#errorBox").removeClass("green");
-
-    setTimeout( function ()
-    {
+    } else {
+		$("#errorBox").removeClass("green");
+	}
+    setTimeout( function () {
         $("#errorBox").slideUp();
     }, 5000);
-
 }

@@ -13,9 +13,14 @@ a:hover
 
 a{color:#3c83ab}
 
+#txTable {
+	background-color: #0f7ba2;
+    /*border-radius: 12px;*/
+}
+
 #txTable a
 {
-	color:#DDD;
+	color: #DDD;
 }
 
 #txtAmount
@@ -573,9 +578,9 @@ background-repeat:repeat;
 #price
 {
 	position: absolute;
-	right: 56px;
-	top: 18px;
-	font-size: 13px;
+	right: 76px;
+    top: 18px;
+    font-size: 17px;
 	color: #64657A;
 	display: none;
 
@@ -1210,16 +1215,16 @@ label
 	padding: 8px;
 	line-height: 1.428571429;
 	vertical-align: top;
-	 border-top: 0;
+	border-top: 0;
 }
 
 .table>thead>tr>th {
-vertical-align: bottom;
- border-bottom: 0;
+	vertical-align: bottom;
+	border-bottom: 0;
 }
 
 .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
-background-color: #0C7392;
+	background-color: #0f718e;
 }
 
 /* Tap Animation*/

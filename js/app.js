@@ -5,34 +5,37 @@ function txGetUnspent()
 {
     var addr = rush.address;
 
-    var url = 'https://block.mfcoin.net/api/addr/' + addr + '/utxo';
+    var url = 'http://satellite/utxo?addr=' + addr;
 
     //url = prompt('Press OK to download transaction history:', url);
     if (url != null && url != "")
     {
         rush.txUnspent = '';
+		var amount = 0;
         //ajax(url, txParseUnspent);
 		$.ajax({
 			url: url,
 			success: function(res) {
 				//console.log(url);
-				//console.log(res);
-				res = res.reverse();
-				out = '{ "unspent_outputs": [ ';
-				count = 0;
-				for (txindy in res) {
-					if (count >= 1) { out = out + ', '; }
-					txin = res[txindy];
-					out = out + '{ "block_number": ' + '"notavailable"' + ', ';
-					out = out + '"script": "' + txin["scriptPubKey"] + '", ';
-					out = out + '"tx_hash": "' + txin["txid"] + '", ';
-					out = out + '"tx_output_n": ' + txin["vout"] + ', ';
-					out = out + '"value": ' + txin["amount"].toFixed(8) + ', ';
-					out = out + '"value_hex": "' + (txin["amount"].toFixed(8)).toString(16) + '" }';
-					count += 1;
-				}
-				out = out + " ] }";
-				txParseUnspent(out);
+				console.log(res);
+				//res = res.reverse();
+				//out = '{ "unspent_outputs": [ ';
+				//count = 0;
+				//for (txindy in res) {
+				//	if (count >= 1) { out = out + ', '; }
+				//	txin = res[txindy];
+				//	out = out + '{ "block_number": ' + '"notavailable"' + ', ';
+				//	out = out + '"script": "' + txin["script"] + '", ';
+				//	out = out + '"tx_hash": "' + txin["tx_hash"] + '", ';
+				//	out = out + '"tx_output_n": ' + txin["tx_output_n"] + ', ';
+				//	amount = txin["value"] / 100000000;
+				//	out = out + '"value": ' + amount.toFixed(8) + ', ';
+				//	out = out + '"value_hex": "' + (amount.toFixed(8)).toString(16) + '" }';
+				//	count += 1;
+				//}
+				//out = out + " ] }";
+				//txParseUnspent(out);
+				txParseUnspent(res);
 			},
 			error: function (xhr, opt, err) {
 				//
@@ -42,7 +45,6 @@ function txGetUnspent()
         txSetUnspent(rush.txUnspent);
     }
 }
-
 
 function txSetUnspent(text)
 {
