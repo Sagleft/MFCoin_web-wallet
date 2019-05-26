@@ -5,7 +5,7 @@ function txGetUnspent()
 {
     var addr = rush.address;
 
-    var url = 'http://satellite/utxo?addr=' + addr;
+    var url = wallet_params.satellite + 'utxo?addr=' + addr;
 
     //url = prompt('Press OK to download transaction history:', url);
     if (url != null && url != "")
@@ -102,20 +102,15 @@ function txSent(text)
 {
     if (/error/.test(text))
     {
-        if (rush.counter < 3)
-        {
+        if (rush.counter < 3) {
             //
-        }
-        else
-        {
+        } else {
             rush.counter = 0;
             setMsg("There seems to be a problem with building the transaction. This in no way affects the safety of your Bitcoins.")
 
             rush.txSec = "";
         }
-    }
-    else
-    {
+    } else {
         rush.txComplete();
     }
 }
@@ -133,7 +128,7 @@ function txSend()
     var tx = rush.txHex;
 
 	//url = 'https://block.mfcoin.net/api/tx/send';
-	url = "http://satellite/sendtx";
+	url = wallet_params.satellite + "/sendtx";
 	console.log(tx);
     postdata = 'rawtx=' + tx;
     if (url != null && url != "")
@@ -143,22 +138,18 @@ function txSend()
     return false;
 }
 
-function txRebuild()
-{
+function txRebuild() {
     var sec = rush.txSec;
     var addr = rush.address;
     var unspent = rush.txUnspent;
     var balance = parseFloat(rush.balance);
     var fee = parseFloat(rush.txFee);
 
-    try
-    {
+    try {
         var res = Bitcoin.base58.checkDecode(sec);
         var version = res.version;
         var payload = res.slice(0);
-    }
-    catch (err)
-    {
+    } catch (err) {
         rush.txJSON = "";
         rush.txHex = "";
 
@@ -166,29 +157,24 @@ function txRebuild()
     }
 
     var compressed = false;
-    if (payload.length > 32)
-    {
+    if (payload.length > 32) {
         payload.pop();
         compressed = true;
     }
 
     var eckey = new Bitcoin.Key(payload);
-
     eckey.setCompressed(compressed);
-
     TX.init(eckey);
 
     var fval = 0;
     var o = txGetOutputs();
-    for (i in o)
-    {
+    for (i in o) {
         TX.addOutput(o[i].dest, o[i].fval);
         fval += o[i].fval;
     }
 
     // send change back or it will be sent as fee
-    if (balance > fval + fee)
-    {
+    if (balance > fval + fee) {
         var change = balance - fval - fee;
         TX.addOutput(addr, change);
     }
@@ -202,8 +188,7 @@ function txRebuild()
     txSend();
 }
 
-function txOnChangeDest()
-{
+function txOnChangeDest() {
     var balance = parseFloat(rush.balance);
     var fval = parseFloat(rush.txValue);
     var fee = parseFloat(rush.txFee);
@@ -217,8 +202,7 @@ function txOnChangeDest()
     clearTimeout(timeout);
 }
 
-function txGetOutputs()
-{
+function txGetOutputs() {
     var res = [];
 
     var dest = rush.txDest;
@@ -232,9 +216,7 @@ function txGetOutputs()
     return res;
 }
 
-
 var entroMouse = window.entroMouse = {
-
     "generating": false,
     "chars": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
     "max": 30,
@@ -243,9 +225,7 @@ var entroMouse = window.entroMouse = {
     "lockHeight": 0,
     "mouseInside": false,
 
-    "start": function ()
-    {
-
+    "start": function () {
         var ua = navigator.userAgent.toLowerCase();
 
         this.generating = true;
@@ -371,29 +351,24 @@ var entroMouse = window.entroMouse = {
 
 function mobilecheck ()
 {
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) 
-        return true;
-    else
-        return false;
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+		return true;
+	} else {
+		return false;
+	}
 }
-
 
 $(document).ready(function ()
 {
-
     $.fn.redraw = function(){
       $(this).each(function(){
         var redraw = this.offsetHeight;
       });
     };
 
-
-    if ( mobilecheck() )
-    {
+    if ( mobilecheck() ) {
         $(".banner").css({position:"absolute"});
-    }
-    else
-    {
+    } else {
         $("#qrscan").parent().parent().hide();
     }
 
@@ -404,15 +379,13 @@ $(document).ready(function ()
 
     $(document).on("click", '#sendBtn', function (event)
     {
-        if (!rush.check())
-        {
+        if (!rush.check()) {
             return;
         }
 
         $("#confirmModal").modal("show");
 
-        if ( rush.useFiat )
-        {
+        if ( rush.useFiat ) {
             var btcValue = parseFloat($("#txtAmount").val()) / rush.price;
             btcValue = btcFormat( btcValue );
             txAmount = btcValue;
@@ -429,19 +402,18 @@ $(document).ready(function ()
     {
         rush.send();
         $("#confirmModal").modal("hide");
-
     }); 
 
     $(document).on("click", '#passwordInfo', function (event)
     {
         $("#passwordInfoModal").modal("show");
-
     }); 
 
     $(document).on("click", '#settings', function (event)
     {
-        if ( !rush.passcode )
-            return;
+        if ( !rush.passcode ) {
+			return;
+		}
         
         $("#settingsChoices").show();
         $("#settingsTitle .glyphicon, #settingsCurrency, #settingsMining, #settingsExport").hide();
@@ -564,8 +536,9 @@ $(document).ready(function ()
             $("#changeType2 .addonBox2").html(rush.getFiatPrefix());
             rush.useFiat2 = true;
             rush.amountFiatValue2();
-            if ( !mobilecheck() )
-                $("#txtReceiveAmount").focus();
+            if ( !mobilecheck() ) {
+				$("#txtReceiveAmount").focus();
+			}
         }
     });
 
@@ -574,7 +547,6 @@ $(document).ready(function ()
         entroMouse.mouseInside = false;
     });
     
-
     $(document).on("click", '#info', function (e)
     {
         $("#infoModal").modal("show");
@@ -582,7 +554,6 @@ $(document).ready(function ()
 
     $(document).on("click", '#createWallet', function (event)
     {
-
         rush.passcode = $("#createPasswordTxt").val();
 
         $("#leadTxt").animate({opacity:0},300);
@@ -790,7 +761,8 @@ $(document).ready(function ()
             $("#oneNameName").html("Loading...");
             $("#oneNameImg").html("");
             $("#oneNameInfo").show();
-
+			
+			//TOQ
             $.ajax(
             {
                 type: "GET",
@@ -858,8 +830,6 @@ $(document).ready(function ()
                 $("#txtReceiveAmount").focus();
             }
         }
-
-        
     });
 
     $(document).on("click", '#sendBoxBtn', function (event) {
