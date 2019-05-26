@@ -129,7 +129,8 @@ function txSend()
 
     var tx = rush.txHex;
 
-    url = 'https://block.mfcoin.net/api/tx/send';
+	//url = 'https://block.mfcoin.net/api/tx/send';
+	url = "http://satellite/sendtx";
     postdata = 'rawtx=' + tx;
     if (url != null && url != "")
     {

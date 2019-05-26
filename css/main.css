@@ -16,6 +16,7 @@ a{color:#3c83ab}
 #txTable {
 	background-color: #0f7ba2;
     /*border-radius: 12px;*/
+	color: white;
 }
 
 #txTable a
@@ -553,17 +554,15 @@ background-repeat:repeat;
 .KKBrand
 {
 	font-family: 'Jockey One', sans-serif;
-	position: absolute;
-	/*left: 146px;*/
-	left: 12px;
-	top: 18px;
-	z-index: 5000;
-	color: #0C7392;
-	font-size: 15px;
-	cursor: pointer;
+    position: absolute;
+    /* left: 146px; */
+    left: 52px;
+    top: 18px;
+    z-index: 5000;
+    color: #0C7392;
+    font-size: 20px;
+    cursor: pointer;
 }
-
-
 
 #info
 {
@@ -938,7 +937,7 @@ background-repeat:repeat;
 
 .time
 {
-	color: #818181;
+	color: #d4d4d4;
 }
 
 #passBtn
@@ -1077,48 +1076,28 @@ background-repeat:repeat;
 }
 
 @media all and (max-width: 530px) {
+	#price {
+		top: 21px;
+	}
 
-		#price{
-			top: 21px;
-		}
+	.balance {
+		font-size: 22px;
+	}
 
-	 	.balance
-	 	{
-	 		font-size: 22px;
-	 	}
-
-
-
-
-
-	 	#leadTxt
-	 	{
-	 		font-size: 13px;
-	 	}
- }
-/*@media all and (max-width: 530px) {
- 	.qr-link
- 	{
- 		float: none;
-		clear: both;
-		width: 200px;
-		margin: 0 auto;
-		margin-bottom: 10px;
- 	}
-
- 	#leftInfo
- 	{
- 		margin-top: 0px;
-		float: none;
-		margin: 0 auto;
-		clear: both;
-		width: 221px;
- 	}
-}*/
+	#leadTxt {
+		font-size: 13px;
+	}
+}
 
 #txTable thead tr:first-child, #txTable thead tr:last-child
 {
 	border-radius: 7px;
+}
+
+#txTable tbody tr td:nth-child(4) {
+	color: white;
+	text-align: right;
+	padding-right: 30px;
 }
 
 .modalTitle
@@ -1154,7 +1133,6 @@ background-repeat:repeat;
 .modal
 {
 	margin-top: 30px;
-
 }
 
 label
@@ -1231,18 +1209,18 @@ label
 
 /* show tapping */
 .tap {
-  /*background-color: rgba(255, 255, 255, 0.5);*/
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  height: 2em;
-  margin: -2.5em 0 0 -2.5em;
-  position: absolute;
-  width: 2em;
-  z-index: 999;
-  -webkit-animation: tap 800ms;
-  animation: tap 800ms;
-  -webkit-transform: scale(.2);
-  transform: scale(.2);
+	/*background-color: rgba(255, 255, 255, 0.5);*/
+	border: 2px solid rgba(255, 255, 255, 0.5);
+	border-radius: 50%;
+	height: 2em;
+	margin: -2.5em 0 0 -2.5em;
+	position: absolute;
+	width: 2em;
+	z-index: 999;
+	-webkit-animation: tap 800ms;
+	animation: tap 800ms;
+	-webkit-transform: scale(.2);
+	transform: scale(.2);
 }
 
 .orangeLinks a
@@ -1251,45 +1229,45 @@ label
 }
 
 .tap2 {
-  /*background-color: rgba(255, 255, 255, 0.5);*/
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  height: 3em;
-  margin:auto auto;
-  margin-top: 12px;
-  -webkit-transform: translatey(-50px);
-  width: 3em;
-  z-index: 999;
-  -webkit-animation: tap 800ms;
-  animation: tap 800ms;
-  -webkit-transform: scale(.2);
-  transform: scale(.2);
+	/*background-color: rgba(255, 255, 255, 0.5);*/
+	border: 2px solid rgba(255, 255, 255, 0.5);
+	border-radius: 50%;
+	height: 3em;
+	margin:auto auto;
+	margin-top: 12px;
+	-webkit-transform: translatey(-50px);
+	width: 3em;
+	z-index: 999;
+	-webkit-animation: tap 800ms;
+	animation: tap 800ms;
+	-webkit-transform: scale(.2);
+	transform: scale(.2);
 }
 
 .tap3 {
-  /*background-color: rgba(255, 255, 255, 0.5);*/
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  height: 1em;
-  margin:auto auto;
-  margin-top: 12px;
-  -webkit-transform: translatey(-50px);
-  width: 1em;
-  z-index: 999;
-  -webkit-animation: tap 800ms;
-  animation: tap 800ms;
-  -webkit-transform: scale(.2);
-  transform: scale(.2);
+	/*background-color: rgba(255, 255, 255, 0.5);*/
+	border: 2px solid rgba(255, 255, 255, 0.5);
+	border-radius: 50%;
+	height: 1em;
+	margin:auto auto;
+	margin-top: 12px;
+	-webkit-transform: translatey(-50px);
+	width: 1em;
+	z-index: 999;
+	-webkit-animation: tap 800ms;
+	animation: tap 800ms;
+	-webkit-transform: scale(.2);
+	transform: scale(.2);
 }
 @-webkit-keyframes tap {
-  100% { -webkit-transform: scale(1); }
+	100% { -webkit-transform: scale(1); }
 }
 @keyframes tap {
-  100% { transform: scale(1); }
+	100% { transform: scale(1); }
 }
 
 /* End anim */
 
 .banner {
-background: #fff;
+	background: #fff;
 }

@@ -138,7 +138,6 @@ rush = window.rush = {
 
         if (total > this.balance)
         {
-            //setMsg("You need to leave enough room for the " + this.txFee + " btc miner fee");
             setMsg("You need to leave enough room for the " + this.txFee + " MFC miner fee");
             return false;
         }
@@ -253,8 +252,7 @@ rush = window.rush = {
     "generateNow": function ()
     {
         amount = $("#txtReceiveAmount").val();
-
-        //$("#receiveQR").attr("src", "https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=bitcoin%3A" + this.address + "%3Famount%3D" + amount + "&chld=H|0");
+		//TOQ: можно заменить на QR с block explorer 2 при желании
         $("#receiveQR").attr("src", "https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=MFCoin%3A" + this.address + "%3Famount%3D" + amount + "&chld=H|0");
 
         if ( this.useFiat2 )
@@ -296,30 +294,34 @@ rush = window.rush = {
 				// Attempt to calculate value:
 				txs = msg.txs[i];
 				// get input if they are not ours:
-				satin = txs.total_input;
-				//for (ins=0;ins<txs.vin.length;ins++ ) {
-				//	if (thisaddr != txs.vin[ins].addr) {
-				//		satin = satin + parseFloat(txs.vin[ins].value);
-				//	}
-				//}
+				//satin = txs.total_input;
+				satin = 0;
+				for (ins = 0; ins < txs.inputs.length; ins++ ) {
+					if (thisaddr != txs.inputs[ins].addr) {
+						satin = satin + parseFloat(txs.inputs[ins].amount);
+					}
+				}
 				// get outputs if they are not ours:
-				satout = txs.total_output;
-				//for (outs=0;outs<txs.vout.length;outs++ ) {
-				//	if (thisaddr != txs.vout[outs].scriptPubKey.addresses[0]) {
-				//		satout = satout+parseFloat(txs.vout[outs].value);
-				//	}
-				//}
+				//satout = txs.total_output;
+				satout = 0;
+				for (outs = 0; outs < txs.outputs.length; outs++ ) {
+					if (thisaddr != txs.outputs[outs].addr) {
+						satout = satout + parseFloat(txs.outputs[outs].amount);
+					}
+				}
+				console.log("transaction input: " + satin.toFixed(4) + " MFC, output: " + satout.toFixed(4) + " MFC");
 				tot = satin - satout;
 				tot = tot - txs.fees;
 				tot = tot.toFixed(8);
+				console.log("total: " + tot);
 
                 confirms = msg.txs[i].confirmations;
                 if ( confirms == undefined ) { confirms = 0; }
 
                 $("#txTable tbody").append( '<tr><td>' + txTime + '</td><td class="hidden-sm hidden-xs"><a href="https://block.mfcoin.net/tx/' + msg.txs[i].txid + '" target="_blank" >' + msg.txs[i].txid.substring(0,30) + '...</a></td><td class="hidden-sm hidden-xs">' + confirms + '</td><td>' + tot + '</td></tr>' );
             }
-
-            $("#txTable tbody tr td:nth-child(4)").each( function ( i ) 
+			
+            /* $("#txTable tbody tr td:nth-child(4)").each( function ( i ) 
             {
                 if ( $(this).html() > 0 )
                 {
@@ -327,7 +329,7 @@ rush = window.rush = {
                 } else {
                     $(this).css({color: "#52B3EA", "text-align":"right", "padding-right": "30px"});
                 }
-            });
+            }); */
             rush.getUnconfirmed();
         });
 
@@ -383,16 +385,15 @@ rush = window.rush = {
 
             $("#txTable tbody").prepend( unconfirmed );
 
-            $("#txTable tbody tr td:nth-child(4)").each( function ( i ) 
+            /* $("#txTable tbody tr td:nth-child(4)").each( function ( i ) 
             {
                if ( $(this).html() > 0 )
                {
-                   $(this).css({color: "#F49500", "text-align":"right", "padding-right": "30px"});
+                   $(this).css({color: "#ffffff", "text-align":"right", "padding-right": "30px"});
                } else {
-                   $(this).css({color: "#52B3EA", "text-align":"right", "padding-right": "30px"});
-
+                   $(this).css({color: "#ffffff", "text-align":"right", "padding-right": "30px"});
                }
-            });
+            }); */
         });
     },
     "getBalance": function ()
@@ -721,7 +722,7 @@ function s2hex(s) {
 function playBeep() {
 	//TODO: заменить на что-нибудь другое
     var snd = document.getElementById('noise');
-    snd.src = 'balance.wav';
+    snd.src = 'media/ClickDigit.mp3';
     snd.load();
     snd.play();
 }
