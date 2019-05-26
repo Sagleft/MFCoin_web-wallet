@@ -285,7 +285,7 @@ rush = window.rush = {
                 $("#noTx, #txList .break").hide();
             }
 			
-            for ( i=0; i < msg.txs.length; i++) {
+            for (i = msg.txs.length-1; i >= 0; i--) {
                 txTime = moment( msg.txs[i].time*1000 ).format( "MMM D YYYY [<span class='time'>]h:mma[</span>]" );
                 if ( txTime == 'Invalid date' ) {
 					txTime = 'unconfirmed';

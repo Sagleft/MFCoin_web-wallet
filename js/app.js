@@ -15,27 +15,28 @@ function txGetUnspent()
         //ajax(url, txParseUnspent);
 		$.ajax({
 			url: url,
-			success: function(res) {
-				//console.log(url);
-				console.log(res);
-				//res = res.reverse();
-				//out = '{ "unspent_outputs": [ ';
-				//count = 0;
-				//for (txindy in res) {
-				//	if (count >= 1) { out = out + ', '; }
-				//	txin = res[txindy];
-				//	out = out + '{ "block_number": ' + '"notavailable"' + ', ';
-				//	out = out + '"script": "' + txin["script"] + '", ';
-				//	out = out + '"tx_hash": "' + txin["tx_hash"] + '", ';
-				//	out = out + '"tx_output_n": ' + txin["tx_output_n"] + ', ';
-				//	amount = txin["value"] / 100000000;
-				//	out = out + '"value": ' + amount.toFixed(8) + ', ';
-				//	out = out + '"value_hex": "' + (amount.toFixed(8)).toString(16) + '" }';
-				//	count += 1;
-				//}
-				//out = out + " ] }";
-				//txParseUnspent(out);
-				txParseUnspent(res);
+			success: function(response) {
+				//TODO: test json
+				//console.log(response);
+				var res = JSON.parse(response);
+				res = res.reverse();
+				out = '{ "unspent_outputs": [ ';
+				count = 0;
+				for (txindy in res) {
+					if (count >= 1) { out = out + ', '; }
+					txin = res[txindy];
+					out = out + '{ "block_number": ' + '"notavailable"' + ', ';
+					out = out + '"script": "' + txin["script"] + '", ';
+					out = out + '"tx_hash": "' + txin["tx_hash"] + '", ';
+					out = out + '"tx_output_n": ' + txin["tx_ouput_n"] + ', ';
+					amount = txin["value"] / 100000000;
+					out = out + '"value": ' + amount.toFixed(8) + ', ';
+					out = out + '"value_hex": "' + (amount.toFixed(8)).toString(16) + '" }';
+					count += 1;
+				}
+				out = out + " ] }";
+				txParseUnspent(out);
+				//txParseUnspent(res);
 			},
 			error: function (xhr, opt, err) {
 				//
@@ -64,10 +65,11 @@ function txSetUnspent(text)
 
 function txParseUnspent(text)
 {
-    if (text == '')
-        setMsg('No data');
-    else
-        txSetUnspent(text);
+    if (text == '') {
+		setMsg('No data');
+	} else {
+		txSetUnspent(text);
+	}
 }
 
 function txOnAddDest()
@@ -124,13 +126,15 @@ function txSend()
     var address = TX.getAddress();
 
     var r = '';
-    if (txAddr != address)
-        r += 'Warning! Source address does not match private key.\n\n';
+    if (txAddr != address) {
+		r += 'Warning! Source address does not match private key.\n\n';
+	}
 
     var tx = rush.txHex;
 
 	//url = 'https://block.mfcoin.net/api/tx/send';
 	url = "http://satellite/sendtx";
+	console.log(tx);
     postdata = 'rawtx=' + tx;
     if (url != null && url != "")
     {
