@@ -42,8 +42,8 @@ rush = window.rush = {
         target.postMessage(url, '*');
 		//TODO: вынести ссылку на block explorer в отдельный подключаемый js с параметрами
         //$("#address").html(this.address);
-        $("#address").html("<a href=\"https://block.mfcoin.net/address/"+this.address+"\" target=\"_blank\">"+this.address+"</a>");
-        $("#explorerlink").html("<a href=\"https://block.mfcoin.net/address/" + this.address + "\" target=\"_blank\"></a>");
+        $("#address").html('<a href="' + wallet_params.explorer + '/address/'+this.address+'" target="_blank">'+this.address+'</a>');
+        $("#explorerlink").html('<a href="' + wallet_params.explorer + '/address/' + this.address + '" target="_blank"></a>');
 
         $(".qrimage").attr("src", "https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=MFCoin%3A" + this.address + "&chld=H|0")
 
@@ -202,9 +202,7 @@ rush = window.rush = {
                 return;
             }
 
-        }
-        else
-        {
+        } else {
             var passcode = this.passcode;
         }
 
@@ -223,9 +221,7 @@ rush = window.rush = {
             btcValue = btcFormat( btcValue );
             this.txAmount = btcValue;
 
-        }
-        else
-        {
+        } else {
             this.txAmount = parseFloat($("#txtAmount").val());
             this.txAmount = btcFormat( this.txAmount );
         }
@@ -267,7 +263,7 @@ rush = window.rush = {
     },
     "getHistory": function() {
 		//запрос транзакций адреса
-        var url = "http://satellite/txs?addr=" + this.address;
+        var url = wallet_params.satellite + "txs?addr=" + this.address;
 		var thisaddr = this.address;
 
         $("#txTable tbody").html("");
@@ -318,7 +314,7 @@ rush = window.rush = {
                 confirms = msg.txs[i].confirmations;
                 if ( confirms == undefined ) { confirms = 0; }
 
-                $("#txTable tbody").append( '<tr><td>' + txTime + '</td><td class="hidden-sm hidden-xs"><a href="https://block.mfcoin.net/tx/' + msg.txs[i].txid + '" target="_blank" >' + msg.txs[i].txid.substring(0,30) + '...</a></td><td class="hidden-sm hidden-xs">' + confirms + '</td><td>' + tot + '</td></tr>' );
+                $("#txTable tbody").append( '<tr><td>' + txTime + '</td><td class="hidden-sm hidden-xs"><a href="' + wallet_params.explorer + '/tx/' + msg.txs[i].txid + '" target="_blank" >' + msg.txs[i].txid.substring(0,30) + '...</a></td><td class="hidden-sm hidden-xs">' + confirms + '</td><td>' + tot + '</td></tr>' );
             }
 			
             /* $("#txTable tbody tr td:nth-child(4)").each( function ( i ) 
@@ -342,7 +338,7 @@ rush = window.rush = {
     "getUnconfirmed": function()
     {
         //var url = "https://block.mfcoin.net/api/addr/" + this.address;
-        var url = "http://satellite/getbalance?addr=" + this.address;
+        var url = wallet_params.satellite + "getbalance?addr=" + this.address;
 
         $.ajax(
         {
@@ -399,8 +395,8 @@ rush = window.rush = {
     "getBalance": function ()
     {
         //var url = "https://block.mfcoin.net/api/addr/" + this.address + "/balance";
-        var url = "http://satellite/getbalance?addr=" + this.address;
-
+        var url = wallet_params.satellite + "/getbalance?addr=" + this.address;
+		
         $.ajax(
         {
             type: "GET",
@@ -473,7 +469,7 @@ rush = window.rush = {
 
         $.ajax({
 			type: "GET",
-			url: "http://api.mfc-market.ru/ticker_local",
+			url: wallet_params.rates,
 			async: true,
 			data: {},
         }).done(function (msg) {
@@ -525,25 +521,19 @@ rush = window.rush = {
     },
     "amountFiatValue2": function ()
     {
-
         var amount = $("#txtReceiveAmount").val();
-
         amount = parseFloat(amount);
 
-        if (!amount)
-        {
+        if (!amount) {
             amount = 0;
         }
-
         
-        if ( rush.useFiat2 )
-        {
+        if ( rush.useFiat2 ) {
             var btcValue = amount / this.price;
             btcValue = btcFormat( btcValue );
             $("#fiatPrice2").html("(MFC " + btcValue + ")");
         } else {
             var fiatValue = this.price * amount;
-
             fiatValue = fiatValue.toFixed(2);
 
             $("#fiatPrice2").html("(" + this.getFiatPrefix() + formatMoney(fiatValue) + ")");
@@ -598,13 +588,10 @@ rush = window.rush = {
     },
     "exportWallet": function ()
     {
-
-        if (!this.encrypted)
-        {
+        if (!this.encrypted) {
             setMsg("" + rush.passcode);
         } else {
-            if ($("#password").val() == "")
-            {
+            if ($("#password").val() == "") {
                 setMsg("Please enter password to decrypt wallet.");
                 return;
             }
@@ -613,14 +600,12 @@ rush = window.rush = {
 
             var passcode = passcode.toString(CryptoJS.enc.Utf8);
 
-            if (!passcode)
-            {
+            if (!passcode) {
                 setMsg("Incorrenct Password!");
                 return;
             }
 
             setMsg("Brainwallet: " + passcode);
-
             $("#password").val("");
         }
 
@@ -639,8 +624,7 @@ rush = window.rush = {
 
         rush.passcode = $("#importBrainTxt").val();
 
-        var bytes = Bitcoin.Crypto.SHA256(rush.passcode,
-        {
+        var bytes = Bitcoin.Crypto.SHA256(rush.passcode, {
             asBytes: true
         });
 
@@ -659,10 +643,8 @@ rush = window.rush = {
             'code': rush.passcode,
             'encrypted': false,
             'address': address
-        }, function ()
-        {
+        }, function () {
             rush.open();
-
         });
 
         setMsg("Brainwallet imported succesfully!");
@@ -697,11 +679,13 @@ Date.prototype.format = function (format) //author: meizz
     }
 
     if (/(y+)/.test(format)) format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(format))
-            format = format.replace(RegExp.$1,
+    for (var k in o) {
+		if (new RegExp("(" + k + ")").test(format)) {
+			format = format.replace(RegExp.$1,
                 RegExp.$1.length == 1 ? o[k] :
                 ("00" + o[k]).substr(("" + o[k]).length));
+		}
+	}
     return format;
 }
 
