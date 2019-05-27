@@ -110,7 +110,7 @@ rush = window.rush = {
         
 		setInterval(function() {
             rush.getBalance();
-        }, 300000);
+        }, 60000);
     },
     "check": function ()
     {
